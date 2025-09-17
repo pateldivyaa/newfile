@@ -140,7 +140,7 @@ const Adminmenu = () => {
       price: item.price,
       category: item.category,
     });
-    setPreviewImg(`http://localhost:5000${item.image}`);
+    setPreviewImg(`https://newfile-jun9.onrender.com${item.image}`);
     setFile(null);
     setIsModalOpen(true);
   };
@@ -201,14 +201,14 @@ const Adminmenu = () => {
             <img
               src={
                 item.image
-                  ? `http://localhost:5000${item.image}`
+                  ? `https://newfile-jun9.onrender.com${item.image}`
                   : "https://via.placeholder.com/300x200?text=No+Image"
               }
               alt={item.name}
               className="h-40 w-full object-cover rounded-t-lg"
               onError={(e) =>
-                (e.target.src =
-                  "https://via.placeholder.com/300x200?text=No+Image")
+              (e.target.src =
+                "https://via.placeholder.com/300x200?text=No+Image")
               }
             />
             <div className="p-4">

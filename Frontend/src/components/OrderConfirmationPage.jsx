@@ -46,8 +46,8 @@ const OrderConfirmationPage = () => {
     orderType === "dine-in"
       ? subtotal * SERVICE_CHARGE_RATE
       : orderType === "takeaway"
-      ? subtotal * PARCEL_CHARGE_RATE
-      : 0;
+        ? subtotal * PARCEL_CHARGE_RATE
+        : 0;
 
   // ✅ GST applies on subtotal + service/parcel charge
   const tax = includeTax ? (subtotal + serviceOrParcelCharge) * GST_RATE : 0;
@@ -125,7 +125,7 @@ const OrderConfirmationPage = () => {
 
     try {
       setIsSubmitting(true);
-      const res = await fetch("http://localhost:5000/api/orders", {
+      const res = await fetch("https://newfile-jun9.onrender.com/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -332,11 +332,10 @@ const OrderConfirmationPage = () => {
                   type="submit"
                   disabled={isSubmitting || cart.length === 0}
                   className={`py-3 px-6 rounded-md text-white font-semibold flex items-center justify-center gap-2
-                  ${
-                    isSubmitting || cart.length === 0
+                  ${isSubmitting || cart.length === 0
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-orange-600 hover:bg-orange-700"
-                  }`}
+                    }`}
                 >
                   <ShoppingBag size={20} />
                   {isSubmitting ? "Placing Order..." : "Confirm Order"}

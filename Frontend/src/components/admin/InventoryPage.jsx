@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { PlusCircle, Trash2, Edit, Check, X } from "lucide-react";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/inventory";
+const API_URL = "https://newfile-jun9.onrender.com/api/inventory";
 
 const InventoryPage = () => {
   const [items, setItems] = useState([]);
@@ -182,7 +182,7 @@ const InventoryPage = () => {
                 ) : (
                   <>
                     <img
-                      src={`http://localhost:5000${item.img}`} // ✅ serve from backend
+                      src={`https://newfile-jun9.onrender.com${item.img}`} // ✅ serve from backend
                       alt={item.name}
                       className="w-24 h-24 object-cover rounded-md mb-3"
                     />

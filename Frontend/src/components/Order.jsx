@@ -22,7 +22,7 @@ const Order = () => {
   const fetchOrders = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/orders?customerId=${user?._id}`
+        `https://newfile-jun9.onrender.com/api/orders?customerId=${user?._id}`
       );
       const data = await res.json();
       if (res.ok && data.success) {
@@ -88,21 +88,19 @@ const Order = () => {
           <div className="flex mb-6">
             <button
               onClick={() => setActiveTab("current")}
-              className={`py-2 px-4 font-medium ${
-                activeTab === "current"
+              className={`py-2 px-4 font-medium ${activeTab === "current"
                   ? "text-orange-600 border-b-2 border-orange-600"
                   : "text-gray-500 hover:text-gray-700"
-              }`}
+                }`}
             >
               Current Order
             </button>
             <button
               onClick={() => setActiveTab("history")}
-              className={`py-2 px-4 font-medium ${
-                activeTab === "history"
+              className={`py-2 px-4 font-medium ${activeTab === "history"
                   ? "text-orange-600 border-b-2 border-orange-600"
                   : "text-gray-500 hover:text-gray-700"
-              }`}
+                }`}
             >
               Order History
             </button>
@@ -194,11 +192,10 @@ const Order = () => {
                       </div>
                       <div>
                         <span
-                          className={`py-1 px-3 rounded-full text-sm ${
-                            currentOrder.isPaid
+                          className={`py-1 px-3 rounded-full text-sm ${currentOrder.isPaid
                               ? "bg-green-100 text-green-800"
                               : "bg-yellow-100 text-yellow-800"
-                          }`}
+                            }`}
                         >
                           {currentOrder.isPaid ? "Paid" : "Payment Pending"}
                         </span>
@@ -310,11 +307,10 @@ const Order = () => {
                             </div>
                             <div>
                               <span
-                                className={`py-1 px-3 rounded-full text-sm ${
-                                  order.isPaid
+                                className={`py-1 px-3 rounded-full text-sm ${order.isPaid
                                     ? "bg-green-100 text-green-800"
                                     : "bg-yellow-100 text-yellow-800"
-                                }`}
+                                  }`}
                               >
                                 {order.isPaid ? "Paid" : "Payment Pending"}
                               </span>

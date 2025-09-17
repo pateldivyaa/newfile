@@ -54,7 +54,7 @@ const AdminDashboard = () => {
     try {
       setReservationsLoading(true);
       setReservationsError(null);
-      
+
       // Get today's date in YYYY-MM-DD format
       const today = new Date().toISOString().split('T')[0];
       console.log('🔄 Fetching today\'s reservations for date:', today);
@@ -392,7 +392,7 @@ const AdminDashboard = () => {
                 <div className="text-center">
                   <p className="text-red-600 mb-2">Error loading reservations</p>
                   <p className="text-sm text-gray-500">{reservationsError}</p>
-                  <button 
+                  <button
                     onClick={refreshReservations}
                     className="mt-2 text-sm text-orange-600 hover:text-orange-700 font-medium"
                   >

@@ -21,7 +21,7 @@ const OrdersPage = () => {
 
   const fetchOrders = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/orders");
+      const res = await fetch("https://newfile-jun9.onrender.com/api/orders");
       const data = await res.json();
       if (res.ok && data.success) {
         setOrders(data.data);
@@ -40,7 +40,7 @@ const OrdersPage = () => {
     if (!window.confirm("Are you sure you want to delete this order?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+      const res = await fetch(`https://newfile-jun9.onrender.com/api/orders/${orderId}`, {
         method: "DELETE",
       });
       const data = await res.json();

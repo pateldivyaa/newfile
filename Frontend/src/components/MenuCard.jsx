@@ -21,14 +21,14 @@ const MenuCard = ({ item }) => {
         <img
           src={
             item.image
-              ? `http://localhost:5000${item.image}`
+              ? `https://newfile-jun9.onrender.com${item.image}`
               : "https://via.placeholder.com/150?text=No+Image"
           }
           alt={item.name}
           className="w-full h-full object-cover"
           onError={(e) =>
-            (e.target.src =
-              "https://via.placeholder.com/150?text=No+Image")
+          (e.target.src =
+            "https://via.placeholder.com/150?text=No+Image")
           }
         />
       </div>
