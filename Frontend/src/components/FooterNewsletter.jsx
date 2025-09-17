@@ -26,7 +26,7 @@ export default function FooterNewsletter() {
       </div>
 
       <div className="mt-20 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-6">
-        
+
         <div className="border-2 rounded-3xl py-2 px-3 bg-orange-600">
           <h3 className="font-bold  text-lg text-white">Govardhan</h3>
           <p className="mt-3 text-sm text-white">
@@ -51,7 +51,7 @@ export default function FooterNewsletter() {
         <div>
           <h4 className="font-bold text-md border-b-4 border-orange-600 inline-block mb-3">Menu</h4>
           <ul className="space-y-1 text-sm">
-            <a href="/menu"><li>› Lasshi</li></a>
+            <a href="https://newfile-jun9.onrender.com/menu"><li>› Lasshi</li></a>
             <a href="/menu"><li>› Milk Shake</li></a>
             <a href="/menu"><li>› Gujarati Chat</li></a>
             <a href="/menu"><li>› Sweets</li></a>
