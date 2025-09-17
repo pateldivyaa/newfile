@@ -1,29 +1,45 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ React Router for navigation
+import { useNavigate } from "react-router-dom";
 import { Lock } from "lucide-react";
 import { toast } from "react-toastify";
+import { authApi } from "../../services/api";  // API service imported
 
-const Adminlogin = () => {
-  const [password, setPassword] = useState("");
+const AdminLogin = () => {
+  const [phone, setPhone] = useState("");
+  const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [step, setStep] = useState(1);  // Step 1: Enter phone, Step 2: Enter OTP
   const navigate = useNavigate();
 
-  const correctPassword = "admin123";
-
-  const handleSubmit = (e) => {
+  const handlePhoneSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    setTimeout(() => {
-      if (password === correctPassword) {
-        localStorage.setItem("govardhanthal_admin_authenticated", "true");
-        toast.success("Welcome to admin dashboard");
-        navigate("/admindashboardpage"); 
-      } else {
-        toast.error("Invalid password");
-      }
+    try {
+      await authApi.loginWithPhone(phone, "adminpassword");  // Send login with phone
+      toast.success("OTP sent to your phone.");
+      setStep(2);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to send OTP");
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
+  };
+
+  const handleOtpSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await authApi.verifyOtp(phone, otp);
+      localStorage.setItem("gt_user", JSON.stringify(response.data));  // Save authenticated user
+      toast.success("Admin authenticated successfully");
+      navigate("/admindashboardpage");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Invalid OTP");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -41,36 +57,63 @@ const Adminlogin = () => {
             </div>
           </div>
 
-          <p className="text-center text-gray-600 mb-6">
-            Enter your password to access the admin dashboard
-          </p>
+          {step === 1 && (
+            <form onSubmit={handlePhoneSubmit}>
+              <div className="mb-6">
+                <label htmlFor="phone" className="block text-gray-700 mb-2">
+                  Phone Number
+                </label>
+                <input
+                  type="text"
+                  id="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                  placeholder="Enter your phone number"
+                  required
+                />
+              </div>
 
-          <form onSubmit={handleSubmit}>
-            <div className="mb-6">
-              <label htmlFor="password" className="block text-gray-700 mb-2">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
-                placeholder="Enter your password"
-                required
-              />
-            </div>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={`w-full py-3 rounded-md text-white font-semibold
+                  ${isLoading ? "bg-orange-400" : "bg-orange-600 hover:bg-orange-700"}
+                  transition-colors`}
+              >
+                {isLoading ? "Sending OTP..." : "Send OTP"}
+              </button>
+            </form>
+          )}
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className={`w-full py-3 rounded-md text-white font-semibold
-                ${isLoading ? "bg-orange-400" : "bg-orange-600 hover:bg-orange-700"}
-                transition-colors`}
-            >
-              {isLoading ? "Logging in..." : "Login"}
-            </button>
-          </form>
+          {step === 2 && (
+            <form onSubmit={handleOtpSubmit}>
+              <div className="mb-6">
+                <label htmlFor="otp" className="block text-gray-700 mb-2">
+                  OTP
+                </label>
+                <input
+                  type="text"
+                  id="otp"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                  placeholder="Enter OTP"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={`w-full py-3 rounded-md text-white font-semibold
+                  ${isLoading ? "bg-orange-400" : "bg-orange-600 hover:bg-orange-700"}
+                  transition-colors`}
+              >
+                {isLoading ? "Verifying OTP..." : "Login"}
+              </button>
+            </form>
+          )}
         </div>
       </div>
 
@@ -86,4 +129,4 @@ const Adminlogin = () => {
   );
 };
 
-export default Adminlogin;
+export default AdminLogin;

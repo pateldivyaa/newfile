@@ -1,8 +1,9 @@
-// src/services/api.js - આ file ને update કરો
 import axios from 'axios';
 
+// API base URL from environment variables (fallback to your deployed backend)
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://newfile-jun9.onrender.com/api';
 
+// Axios instance configured with base URL and headers
 export const api = axios.create({
     baseURL: API_BASE_URL,
     headers: {
@@ -10,6 +11,7 @@ export const api = axios.create({
     },
 });
 
+// Function to set Authorization token header
 export function setAuthToken(token) {
     if (token) {
         api.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -18,7 +20,7 @@ export function setAuthToken(token) {
     }
 }
 
-// Initialize auth header from persisted user if available
+// Initialize auth header from persisted user in localStorage
 try {
     const raw = localStorage.getItem('gt_user');
     if (raw) {
@@ -27,37 +29,62 @@ try {
     }
 } catch { }
 
-// Auth - Updated with phone support
+// Auth API endpoints
 export const authApi = {
-    // Email-based (legacy)
-    register: (name, email, password) => api.post('/auth/register', { name, email, password }),
-    login: (email, password) => api.post('/auth/login', { email, password }),
+    register: (name, email, password) =>
+        api.post('/auth/register', { name, email, password }),
 
-    // Phone-based (new)
-    registerWithPhone: (name, phone, password) => api.post('/auth/register-phone', { name, phone, password }),
-    loginWithPhone: (phone, password) => api.post('/auth/login-phone', { phone, password }),
-    verifyOtp: (phone, otp) => api.post('/auth/verify-otp', { phone, otp }),
+    login: (email, password) =>
+        api.post('/auth/login', { email, password }),
+
+    registerWithPhone: (name, phone, password) =>
+        api.post('/auth/register-phone', { name, phone, password }),
+
+    loginWithPhone: (phone, password) =>
+        api.post('/auth/login-phone', { phone, password }),
+
+    verifyOtp: (phone, otp) =>
+        api.post('/auth/verify-otp', { phone, otp }),
 };
 
-// Menu
+// Menu API endpoints
 export const menuApi = {
-    list: () => api.get('/menu'),
-    add: (data) => api.post('/menu', data), // admin only
+    list: () =>
+        api.get('/menu'),
+
+    add: (data) =>
+        api.post('/menu', data), // Admin only
 };
 
-// Reservations
+// Reservation API endpoints
 export const reservationApi = {
-    create: (data) => api.post('/reservations', data),
-    list: () => api.get('/reservations'),
-    verifyOtp: (reservationId, otp) => api.post('/reservations/verify-otp', { reservationId, otp }),
-    resendOtp: (reservationId) => api.post('/reservations/resend-otp', { reservationId }),
-    updateStatus: (reservationId, status) => api.patch(`/reservations/${reservationId}`, { status }),
+    create: (data) =>
+        api.post('/reservations', data),
+
+    list: () =>
+        api.get('/reservations'),
+
+    verifyOtp: (reservationId, otp) =>
+        api.post('/reservations/verify-otp', { reservationId, otp }),
+
+    resendOtp: (reservationId) =>
+        api.post('/reservations/resend-otp', { reservationId }),
+
+    updateStatus: (reservationId, status) =>
+        api.patch(`/reservations/${reservationId}`, { status }),
 };
 
-// Orders
+// Orders API endpoints
 export const ordersApi = {
-    create: (payload) => api.post('/orders', payload),
-    mine: () => api.get('/orders/me'),
-    recent: () => api.get('/orders/recent'), // admin only
-    verifyOtp: (orderId, otp) => api.post('/orders/verify-otp', { orderId, otp }),
+    create: (payload) =>
+        api.post('/orders', payload),
+
+    mine: () =>
+        api.get('/orders/me'),
+
+    recent: () =>
+        api.get('/orders/recent'), // Admin only
+
+    verifyOtp: (orderId, otp) =>
+        api.post('/orders/verify-otp', { orderId, otp }),
 };
